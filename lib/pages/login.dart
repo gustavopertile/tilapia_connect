@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:tilapia_connect/theme/theme_model.dart';
 import 'package:provider/provider.dart';
 
@@ -64,11 +65,9 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                       ),
-                      Center(
+                      const Center(
                         child: SizedBox(
-                          child: const Text(
-                            'Tilápia Connect',
-                          ),
+                          child: Text('Tilápia Connect', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.indigoAccent)),
                         ),
                       ),
                       SizedBox(
@@ -90,7 +89,7 @@ class _LoginState extends State<Login> {
                                   keyboardType: TextInputType.number,
                                   cursorColor: Colors.indigoAccent,
                                   decoration: InputDecoration(
-                                    hintText: 'CPF/CNPJ',
+                                    hintText: 'Usuário',
                                     contentPadding: const EdgeInsets.only(left: 20),
                                     filled: true,
                                     fillColor: Colors.grey.shade300,
@@ -172,7 +171,7 @@ class _LoginState extends State<Login> {
                                     width: width * .85,
                                     height: 45,
                                     decoration: BoxDecoration(
-                                      color: Theme.of(context).primaryColor,
+                                      color: Colors.indigoAccent,
                                       borderRadius: BorderRadius.circular(30),
                                     ),
                                     child: InkWell(
@@ -218,7 +217,7 @@ class _LoginState extends State<Login> {
                                 child: const Text(
                                   "Esqueceu sua senha?",
                                   style: TextStyle(
-                                    color: Color(0xFFe56b59),
+                                    color: Colors.indigoAccent,
                                   ),
                                 ),
                               )

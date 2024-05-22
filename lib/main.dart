@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tilapia_connect/pages/dashboard.dart';
 
 import 'pages/login.dart';
 import 'theme/theme_model.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
           initialRoute: '/login',
           routes: {
             '/login': (context) => const Login(),
+            '/dashboard': (context) => const Dashboard(),
           },
         );
       }),
