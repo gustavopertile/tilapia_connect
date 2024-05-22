@@ -14,12 +14,11 @@ class ThemeModel extends ChangeNotifier {
 
   getPreferences() {
     _isDark = false;
-    notifyListeners();
   }
 
   set isDark(bool value) {
-    _isDark = value;
-    _preferences.setTheme(value);
+    _isDark = false;
+    _preferences.setTheme(false);
     notifyListeners();
   }
 }
@@ -28,12 +27,12 @@ class MyThemes {
   static final lightTheme = ThemeData(
     fontFamily: 'Montserrat',
     scaffoldBackgroundColor: Colors.white,
-    primaryColor: const Color(0xFFe56b59),
+    primaryColor: const Color(0x007BFF),
   );
 
   static final darkTheme = ThemeData(
     fontFamily: 'Montserrat',
     scaffoldBackgroundColor: const Color(0xFF303349),
-    primaryColor: const Color(0xFFe56b59),
+    primaryColor: const Color(0x007BFF),
   );
 }
