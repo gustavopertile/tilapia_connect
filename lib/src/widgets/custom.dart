@@ -3,17 +3,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:tilapia_connect/src/styles/buttons.dart';
-import 'package:tilapia_connect/src/styles/colors.dart';
-import 'package:tilapia_connect/src/styles/containers.dart';
-import 'package:tilapia_connect/src/styles/text.dart';
+import '../styles/buttons.dart';
+import '../styles/colors.dart';
+import '../styles/containers.dart';
+import '../styles/text.dart';
 
-class Balance extends StatelessWidget {
+class Weather extends StatelessWidget {
   final double width;
   final bool showBalance;
   final VoidCallback onPressed;
   final Widget balance;
-  const Balance({
+  const Weather({
     required this.width,
     required this.showBalance,
     required this.onPressed,
@@ -34,7 +34,7 @@ class Balance extends StatelessWidget {
               SizedBox(
                 height: 22,
                 child: Text(
-                  'R\$',
+                  '',
                   style: textWhite.copyWith(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,

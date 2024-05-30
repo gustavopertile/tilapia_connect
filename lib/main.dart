@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tilapia_connect/pages/dashboard.dart';
+import 'pages/dashboard.dart';
+import 'pages/infos/infos.dart';
 
 import 'pages/login.dart';
 import 'theme/theme_model.dart';
 
-main() {
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+void main() async {
   runApp(const MyApp());
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -26,6 +33,7 @@ class MyApp extends StatelessWidget {
           routes: {
             '/login': (context) => const Login(),
             '/dashboard': (context) => const Dashboard(),
+            '/infos': (context) => const Informative(),
           },
         );
       }),

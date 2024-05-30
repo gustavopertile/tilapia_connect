@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tilapia_connect/src/styles/colors.dart';
+import 'colors.dart';
 
 final TextStyle defaultText = TextStyle(
   color: secondaryColor,

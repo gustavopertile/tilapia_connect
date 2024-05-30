@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:tilapia_connect/theme/theme_model.dart';
+import '../theme/theme_model.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -10,10 +11,54 @@ class Login extends StatefulWidget {
   State<Login> createState() => _LoginState();
 }
 
+final FirebaseAuth _auth = FirebaseAuth.instance;
+
+void signIn(String email, String password, BuildContext context) async {
+  try {
+    UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    Navigator.pushNamed(context, '/dashboard');
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'user-not-found') {
+      print('Usuário não encontrado para esse e-mail.');
+      AlertDialog(
+        title: const Text('Usuário não encontrado'),
+        content: const Text('Não foi possível encontrar um usuário com esse e-mail.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      );
+    } else if (e.code == 'wrong-password') {
+      print('Senha inválida.');
+      AlertDialog(
+        title: const Text('Senha inválida'),
+        content: const Text('Senha incorreta fornecida para esse usuário.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      );
+    }
+  } catch (e) {
+    print(e);
+  }
+}
+
 class _LoginState extends State<Login> {
   final _formkey = GlobalKey<FormState>();
-  String cpfCnpj = '';
-  String senha = '';
+  String email = '';
+  String password = '';
   final loading = ValueNotifier<bool>(false);
   @override
   Widget build(BuildContext context) {
@@ -32,26 +77,6 @@ class _LoginState extends State<Login> {
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Padding(
-                      //   padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-                      //   child: SizedBox(
-                      //     width: width,
-                      //     height: height * .1,
-                      //     child: Row(
-                      //       mainAxisAlignment: MainAxisAlignment.end,
-                      //       crossAxisAlignment: CrossAxisAlignment.start,
-                      //       children: [
-                      //         IconButton(
-                      //           onPressed: () {
-                      //             themeNotifier.isDark ? themeNotifier.isDark = false : themeNotifier.isDark = true;
-                      //           },
-                      //           icon: Icon(themeNotifier.isDark ? Icons.wb_sunny : Icons.nightlight_round),
-                      //           color: themeNotifier.isDark ? Colors.white : Colors.black,
-                      //         )
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
                       SizedBox(
                         height: height * .2,
                       ),
@@ -84,9 +109,9 @@ class _LoginState extends State<Login> {
                                 width: width * .85,
                                 child: TextFormField(
                                   onChanged: (value) => {
-                                    cpfCnpj = value,
+                                    email = value,
                                   },
-                                  keyboardType: TextInputType.number,
+                                  keyboardType: TextInputType.emailAddress,
                                   cursorColor: Colors.indigoAccent,
                                   decoration: InputDecoration(
                                     hintText: 'Usuário',
@@ -125,7 +150,7 @@ class _LoginState extends State<Login> {
                                 width: width * .85,
                                 child: TextFormField(
                                   onChanged: (value) => {
-                                    senha = value,
+                                    password = value,
                                   },
                                   obscureText: true,
                                   enableSuggestions: false,
@@ -176,8 +201,12 @@ class _LoginState extends State<Login> {
                                     ),
                                     child: InkWell(
                                       onTap: () async {
+                                        print('teste');
+                                        print(email);
+                                        print(password);
                                         FocusManager.instance.primaryFocus?.unfocus();
-                                        Navigator.pushNamed(context, '/dashboard');
+
+                                        signIn(email, password, context);
                                       },
                                       customBorder: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(30),

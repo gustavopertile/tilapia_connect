@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tilapia_connect/src/styles/colors.dart';
+import 'colors.dart';
 
 final InputDecoration loginInput = InputDecoration(
   contentPadding: const EdgeInsets.only(left: 20),

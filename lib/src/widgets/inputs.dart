@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:tilapia_connect/src/styles/colors.dart';
-import 'package:tilapia_connect/src/styles/inputs.dart';
-import 'package:tilapia_connect/src/styles/text.dart';
-import 'package:tilapia_connect/src/widgets/buttons.dart';
+import '../styles/colors.dart';
+import '../styles/inputs.dart';
+import '../styles/text.dart';
+import 'buttons.dart';
 
 class Input extends StatelessWidget {
   final double width;

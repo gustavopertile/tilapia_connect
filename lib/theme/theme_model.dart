@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tilapia_connect/theme/theme_preferences.dart';
+import 'theme_preferences.dart';
 
 class ThemeModel extends ChangeNotifier {
   bool _isDark = false;

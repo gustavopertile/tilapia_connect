@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tilapia_connect/src/styles/buttons.dart';
-import 'package:tilapia_connect/src/styles/colors.dart';
-import 'package:tilapia_connect/src/styles/containers.dart';
-import 'package:tilapia_connect/src/styles/text.dart';
+import '../styles/buttons.dart';
+import '../styles/colors.dart';
+import '../styles/containers.dart';
+import '../styles/text.dart';
 
 class DefaultButton extends StatelessWidget {
   final double? width;
