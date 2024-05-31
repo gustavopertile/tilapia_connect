@@ -1,16 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tilapia_connect/pages/infos.dart';
+import '../controllers/weather_service.dart';
 import '../src/index.dart';
 import '../src/styles/containers.dart';
 import '../src/styles/text.dart';
 import '../src/widgets/containers.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../src/widgets/custom.dart';
+import 'tilapia_summary.dart';
+import 'weather_page.dart';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({Key? key}) : super(key: key);
+  const Dashboard({super.key});
 
   @override
   State<Dashboard> createState() => _DashboardState();
@@ -19,18 +22,52 @@ class Dashboard extends StatefulWidget {
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class _DashboardState extends State<Dashboard> {
-  late Future futureGetSaldo;
-  late Future futureGetExtractHome;
   var db = FirebaseFirestore.instance;
-  var cpfCnpj = '';
-  SharedPreferences? prefs;
-  bool showBalance = false;
-  final loading = ValueNotifier<bool>(false);
   User? user = _auth.currentUser;
+
+  bool showInputCity = false;
+
+  final WeatherService _weatherService = WeatherService();
+  final TextEditingController _controller = TextEditingController();
+  Map<String, dynamic>? _weatherData;
+  bool _isLoadingWeather = false;
+  String city = 'Erechim';
+
+  void _fetchWeather(cityValue) async {
+    setState(() {
+      _isLoadingWeather = true;
+      city = cityValue;
+    });
+
+    try {
+      final weatherData = await _weatherService.fetchWeather(cityValue);
+      setState(() {
+        _weatherData = weatherData;
+        _isLoadingWeather = false;
+      });
+    } catch (e) {
+      setState(() {
+        _isLoadingWeather = false;
+      });
+      AlertDialog(
+        title: const Text('Erro'),
+        content: const Text('Erro ao carregar clima.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      );
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    _fetchWeather(city);
   }
 
   @override
@@ -49,7 +86,7 @@ class _DashboardState extends State<Dashboard> {
             Image.asset(
               backgroundDashboard,
               width: width,
-              height: height * .45,
+              height: height * .6,
               fit: BoxFit.cover,
             ),
             Scaffold(
@@ -61,7 +98,6 @@ class _DashboardState extends State<Dashboard> {
                     children: [
                       SizedBox(
                         width: width,
-                        // height: height * .02,
                         height: height * .05,
                       ),
                       HelloContainer(
@@ -82,38 +118,86 @@ class _DashboardState extends State<Dashboard> {
                       SizedBox(
                         height: height * .07,
                       ),
-                      SizedBox(
-                        width: width * .85,
-                        height: 24,
-                        child: Text(
-                          'Clima',
-                          style: textWhite.copyWith(
-                            fontSize: 16,
-                          ),
+                      Container(
+                        width: width * .9,
+                        height: height * .14,
+                        decoration: containerWithBorderRadius.copyWith(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.white.withOpacity(.4),
+                        ),
+                        child: Column(
+                          children: [
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            SizedBox(
+                              width: width * .85,
+                              height: 24,
+                              child: Text(
+                                'Clima em $city',
+                                style: textWhite.copyWith(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                            _isLoadingWeather
+                                ? const CircularProgressIndicator()
+                                : _weatherData != null
+                                    ? Weather(
+                                        width: width * .85,
+                                        showInputCity: showInputCity,
+                                        onPressed: () {
+                                          setState(() {
+                                            showInputCity = !showInputCity;
+                                          });
+                                        },
+                                        temp: Text(
+                                          '${_weatherData!['main']['temp']}°C',
+                                          style: textWhite.copyWith(
+                                            fontSize: 48,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        inputCity: Container(
+                                          width: width * .6,
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: containerWithBorder.copyWith(
+                                            borderRadius: BorderRadius.circular(10),
+                                            color: Colors.white,
+                                          ),
+                                          child: TextField(
+                                            controller: _controller,
+                                            decoration: InputDecoration(
+                                              focusColor: Colors.indigoAccent,
+                                              suffixIconColor: Colors.indigoAccent,
+                                              fillColor: Colors.indigoAccent,
+                                              hoverColor: Colors.indigoAccent,
+                                              labelText: 'Digite o nome da cidade',
+                                              contentPadding: const EdgeInsets.only(left: 10),
+                                              suffixIcon: IconButton(
+                                                icon: const Icon(Icons.search),
+                                                onPressed: () => {
+                                                  _fetchWeather(_controller.text),
+                                                  setState(() {
+                                                    showInputCity = false;
+                                                  }),
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : const Text('Digite uma cidade para obter o clima'),
+                          ],
                         ),
                       ),
-                      Weather(
-                          width: width * .85,
-                          showBalance: showBalance,
-                          onPressed: () {
-                            setState(() {
-                              showBalance = !showBalance;
-                            });
-                          },
-                          balance: Text(
-                            '32º',
-                            style: textWhite.copyWith(
-                              fontSize: 32,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          )),
                     ],
                   ),
                 ),
               ),
               bottomSheet: Container(
                 width: width,
-                height: height * .65 - 60,
+                height: height * .5,
                 decoration: containerModal,
                 child: Column(
                   children: [
@@ -134,7 +218,10 @@ class _DashboardState extends State<Dashboard> {
                             iconSize: 50,
                             text: 'Informativos',
                             onPressed: () {
-                              Navigator.pushNamed(context, '/infos');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const TilapiaSummaryPage()),
+                              );
                             },
                           ),
                           SizedBox(
@@ -142,11 +229,29 @@ class _DashboardState extends State<Dashboard> {
                           ),
                           ItemDashboard(
                             height: height,
-                            icon: FontAwesomeIcons.folderOpen,
+                            icon: FontAwesomeIcons.sun,
                             iconSize: 48,
-                            text: 'Documentos',
+                            text: 'Clima',
                             onPressed: () {
-                              Navigator.pushNamed(context, '/documents');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => WeatherPage()),
+                              );
+                            },
+                          ),
+                          SizedBox(
+                            width: width * .05,
+                          ),
+                          ItemDashboard(
+                            height: height,
+                            icon: FontAwesomeIcons.fish,
+                            iconSize: 50,
+                            text: 'Informativos 2 teste',
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const Informative()),
+                              );
                             },
                           ),
                           SizedBox(

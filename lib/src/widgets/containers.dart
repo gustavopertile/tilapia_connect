@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tilapia_connect/src/index.dart';
-import 'package:tilapia_connect/src/styles/buttons.dart';
-import 'package:tilapia_connect/src/styles/containers.dart';
-import 'package:tilapia_connect/src/styles/text.dart';
+import '../index.dart';
+import '../styles/buttons.dart';
+import '../styles/containers.dart';
+import '../styles/text.dart';
 
 class HelloContainer extends StatelessWidget {
   final double width;
