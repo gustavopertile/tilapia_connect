@@ -78,21 +78,19 @@ class _LoginPageState extends State<LoginPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      height: height * .2,
+                      height: height * .1,
                     ),
                     Center(
                       child: SizedBox(
-                        width: width * .6,
-                        height: height * .2,
-                        child: Image.asset(
-                          'assets/images/fish_background.jpeg',
-                          fit: BoxFit.contain,
+                        width: width * .7,
+                        height: height * .35,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(25),
+                          child: Image.asset(
+                            'assets/images/tilapia_icon.jpeg',
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      ),
-                    ),
-                    const Center(
-                      child: SizedBox(
-                        child: Text('Tilápia Connect', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.indigoAccent)),
                       ),
                     ),
                     SizedBox(
@@ -112,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                                   email = value,
                                 },
                                 keyboardType: TextInputType.emailAddress,
-                                cursorColor: Colors.indigoAccent,
+                                cursorColor: Colors.cyan[800],
                                 decoration: InputDecoration(
                                   hintText: 'Usuário',
                                   contentPadding: const EdgeInsets.only(left: 20),
@@ -155,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                                 obscureText: true,
                                 enableSuggestions: false,
                                 autocorrect: false,
-                                cursorColor: Colors.indigoAccent,
+                                cursorColor: Colors.cyan[800],
                                 decoration: InputDecoration(
                                   hintText: 'Senha',
                                   contentPadding: const EdgeInsets.only(left: 20),
@@ -196,7 +194,7 @@ class _LoginPageState extends State<LoginPage> {
                                   width: width * .85,
                                   height: 45,
                                   decoration: BoxDecoration(
-                                    color: Colors.indigoAccent,
+                                    color: Colors.cyan[800],
                                     borderRadius: BorderRadius.circular(30),
                                   ),
                                   child: InkWell(

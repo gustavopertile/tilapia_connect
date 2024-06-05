@@ -21,8 +21,8 @@ class Input extends StatelessWidget {
     required this.label,
     this.autoCorrect,
     required this.onChanged,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -59,8 +59,8 @@ class InputMask extends StatelessWidget {
     required this.inputType,
     required this.inputFormatter,
     required this.label,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -98,8 +98,8 @@ class PasswordInput extends StatelessWidget {
     required this.passwordVisible,
     this.label,
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -152,8 +152,8 @@ class InputSearch extends StatelessWidget {
     required this.heightButton,
     required this.loading,
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -222,8 +222,8 @@ class InputSearchBarCode extends StatelessWidget {
     required this.barcode,
     required this.onPressed,
     required this.onChanged,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   @override
   Widget build(BuildContext context) {
     return Row(

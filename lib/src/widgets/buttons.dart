@@ -15,15 +15,15 @@ class DefaultButton extends StatelessWidget {
     this.height,
     required this.onPressed,
     required this.text,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: width ?? buttonWidth,
       height: height ?? buttonHeight,
-      decoration: containerWithOrangeBorder.copyWith(color: primaryColor),
+      decoration: containerWithOrangeBorder.copyWith(color: Colors.cyan[800]),
       child: TextButton(
         onPressed: () {
           onPressed();
@@ -47,8 +47,8 @@ class DefaultButtonWhite extends StatelessWidget {
     this.height,
     required this.onPressed,
     required this.text,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -88,8 +88,8 @@ class EntryButton extends StatelessWidget {
     this.fontSize,
     required this.loading,
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +116,7 @@ class EntryButton extends StatelessWidget {
                         width: 20,
                         height: 20,
                         child: CircularProgressIndicator(
-                          color: primaryColor,
+                          color: Colors.cyan[800],
                           strokeWidth: 1.5,
                         ),
                       )
@@ -132,7 +132,7 @@ class EntryButton extends StatelessWidget {
               width: widthSizedBoxArrow ?? 40,
               height: buttonHeight,
               decoration: containerWithOrangeBorder.copyWith(
-                color: primaryColor,
+                color: Colors.cyan[800],
               ),
               child: Icon(
                 CupertinoIcons.right_chevron,
@@ -159,15 +159,15 @@ class AnimatedButton extends StatelessWidget {
     required this.text,
     required this.loading,
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: width ?? buttonWidth,
       height: height ?? buttonHeight,
-      decoration: containerWithOrangeBorder.copyWith(color: primaryColor),
+      decoration: containerWithOrangeBorder.copyWith(color: Colors.cyan[800]),
       child: TextButton(
         onPressed: () {
           onPressed();
@@ -205,8 +205,8 @@ class AnimatedButtonIcon extends StatelessWidget {
     this.height,
     required this.loading,
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -267,8 +267,8 @@ class AnimatedButtonIconBarCode extends StatelessWidget {
     required this.loading,
     required this.onPressed,
     this.barcode,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

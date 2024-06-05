@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tilapia_connect/pages/infos.dart';
+import 'package:tilapia_connect/pages/calculation_page.dart';
+import 'package:tilapia_connect/pages/growth_calculation_page.dart';
+import 'package:tilapia_connect/pages/infos_page.dart';
 import '../controllers/weather_service.dart';
 import '../src/index.dart';
 import '../src/styles/containers.dart';
@@ -9,7 +11,6 @@ import '../src/styles/text.dart';
 import '../src/widgets/containers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../src/widgets/custom.dart';
-import 'tilapia_summary.dart';
 import 'weather_page.dart';
 
 class Dashboard extends StatefulWidget {
@@ -43,24 +44,91 @@ class _DashboardState extends State<Dashboard> {
       final weatherData = await _weatherService.fetchWeather(cityValue);
       setState(() {
         _weatherData = weatherData;
+        if (_weatherData!['main']['temp'] < 15) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text(
+                  'Atenção!',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                content: const Text(
+                  'Temperatura abaixo de 15ºC.\nSUSPENDER ALIMENTAÇÃO!',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+        if (_weatherData!['main']['temp'] > 32) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text(
+                  'Atenção!',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                content: const Text(
+                  'Temperatura acima de 32ºC.\nSUSPENDER ALIMENTAÇÃO!',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
+        }
         _isLoadingWeather = false;
       });
     } catch (e) {
       setState(() {
         _isLoadingWeather = false;
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Erro'),
+              content: const Text('Erro ao carregar clima.'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
       });
-      AlertDialog(
-        title: const Text('Erro'),
-        content: const Text('Erro ao carregar clima.'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text('OK'),
-          ),
-        ],
-      );
     }
   }
 
@@ -77,7 +145,7 @@ class _DashboardState extends State<Dashboard> {
     final MediaQueryData scaleFactor = MediaQuery.of(context);
     return MediaQuery(
       data: scaleFactor.copyWith(
-        textScaleFactor: 1.0,
+        textScaler: const TextScaler.linear(1.0),
       ),
       child: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -107,8 +175,8 @@ class _DashboardState extends State<Dashboard> {
                           'Olá, ${user?.email}',
                           maxLines: 1,
                           textAlign: TextAlign.start,
-                          style: const TextStyle(
-                            color: Colors.indigoAccent,
+                          style: TextStyle(
+                            color: Colors.grey.shade800,
                             fontWeight: FontWeight.w500,
                             fontSize: 15,
                             overflow: TextOverflow.clip,
@@ -123,7 +191,7 @@ class _DashboardState extends State<Dashboard> {
                         height: height * .14,
                         decoration: containerWithBorderRadius.copyWith(
                           borderRadius: BorderRadius.circular(20),
-                          color: Colors.white.withOpacity(.4),
+                          color: Colors.white,
                         ),
                         child: Column(
                           children: [
@@ -137,6 +205,7 @@ class _DashboardState extends State<Dashboard> {
                                 'Clima em $city',
                                 style: textWhite.copyWith(
                                   fontSize: 18,
+                                  color: Colors.grey.shade800,
                                 ),
                               ),
                             ),
@@ -156,6 +225,7 @@ class _DashboardState extends State<Dashboard> {
                                           style: textWhite.copyWith(
                                             fontSize: 48,
                                             fontWeight: FontWeight.w500,
+                                            color: Colors.grey.shade800,
                                           ),
                                         ),
                                         inputCity: Container(
@@ -168,10 +238,12 @@ class _DashboardState extends State<Dashboard> {
                                           child: TextField(
                                             controller: _controller,
                                             decoration: InputDecoration(
-                                              focusColor: Colors.indigoAccent,
-                                              suffixIconColor: Colors.indigoAccent,
-                                              fillColor: Colors.indigoAccent,
-                                              hoverColor: Colors.indigoAccent,
+                                              focusColor: Colors.grey.shade800,
+                                              suffixIconColor: Colors.grey.shade800,
+                                              fillColor: Colors.grey.shade800,
+                                              hoverColor: Colors.grey.shade800,
+                                              iconColor: Colors.grey.shade800,
+                                              prefixIconColor: Colors.grey.shade800,
                                               labelText: 'Digite o nome da cidade',
                                               contentPadding: const EdgeInsets.only(left: 10),
                                               suffixIcon: IconButton(
@@ -197,7 +269,7 @@ class _DashboardState extends State<Dashboard> {
               ),
               bottomSheet: Container(
                 width: width,
-                height: height * .5,
+                height: height * .45,
                 decoration: containerModal,
                 child: Column(
                   children: [
@@ -205,7 +277,7 @@ class _DashboardState extends State<Dashboard> {
                       height: height * .08,
                     ),
                     SizedBox(
-                      height: height * .18,
+                      height: height * .3,
                       child: ListView(
                         scrollDirection: Axis.horizontal,
                         children: [
@@ -214,43 +286,46 @@ class _DashboardState extends State<Dashboard> {
                           ),
                           ItemDashboard(
                             height: height,
-                            icon: FontAwesomeIcons.fish,
+                            width: width,
+                            icon: FontAwesomeIcons.circleInfo,
                             iconSize: 50,
                             text: 'Informativos',
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => const TilapiaSummaryPage()),
-                              );
-                            },
-                          ),
-                          SizedBox(
-                            width: width * .05,
-                          ),
-                          ItemDashboard(
-                            height: height,
-                            icon: FontAwesomeIcons.sun,
-                            iconSize: 48,
-                            text: 'Clima',
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => WeatherPage()),
-                              );
-                            },
-                          ),
-                          SizedBox(
-                            width: width * .05,
-                          ),
-                          ItemDashboard(
-                            height: height,
-                            icon: FontAwesomeIcons.fish,
-                            iconSize: 50,
-                            text: 'Informativos 2 teste',
-                            onPressed: () {
-                              Navigator.push(
-                                context,
                                 MaterialPageRoute(builder: (context) => const Informative()),
+                              );
+                            },
+                          ),
+                          SizedBox(
+                            width: width * .05,
+                          ),
+                          ItemDashboard(
+                            height: height,
+                            width: width,
+                            icon: FontAwesomeIcons.calculator,
+                            iconSize: 48,
+                            text: 'Cálculo de Ração',
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const CalculationPage()),
+                              );
+                            },
+                          ),
+                          SizedBox(
+                            width: width * .05,
+                          ),
+                          ItemDashboard(
+                            height: height,
+                            width: width,
+                            icon: FontAwesomeIcons.chartLine,
+                            iconSize: 48,
+                            text: 'Acompanhamento de Crescimento',
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const GrowthCalculationPage()),
                               );
                             },
                           ),

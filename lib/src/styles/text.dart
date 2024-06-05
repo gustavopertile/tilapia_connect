@@ -13,8 +13,8 @@ class DefaultText extends StatelessWidget {
   final String text;
   const DefaultText({
     required this.text,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   @override
   Widget build(BuildContext context) {
     return Text(

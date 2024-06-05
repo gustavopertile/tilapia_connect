@@ -26,24 +26,23 @@ class HelloContainer extends StatelessWidget {
         color: Colors.white,
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            width: width * .17,
-            height: height * .075,
+            width: width * .15,
+            height: height * .07,
             decoration: containerWithBorder.copyWith(
-              color: Colors.indigoAccent,
+              color: Colors.white,
               borderRadius: BorderRadius.circular(18),
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Image.asset(
-                logoApp,
-                fit: BoxFit.cover,
-              ),
+            child: Image.asset(
+              logoApp,
+              fit: BoxFit.contain,
             ),
           ),
-          SizedBox(width: width * .6, child: child),
+          const SizedBox(
+            width: 10,
+          ),
+          SizedBox(child: child),
         ],
       ),
     );
@@ -52,26 +51,28 @@ class HelloContainer extends StatelessWidget {
 
 class ItemDashboard extends StatelessWidget {
   final double height;
+  final double width;
   final IconData icon;
   final double? iconSize;
   final String text;
   final VoidCallback onPressed;
   const ItemDashboard({
     required this.height,
+    required this.width,
     required this.icon,
     this.iconSize,
     required this.text,
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 100,
+      width: width * .33,
       decoration: containerWithBorderRadius.copyWith(
         borderRadius: BorderRadius.circular(15),
-        color: Colors.indigoAccent,
+        color: Colors.cyan[800],
       ),
       child: TextButton(
         style: buttonStyleDefault.copyWith(
@@ -109,7 +110,7 @@ class ItemDashboard extends StatelessWidget {
                 text,
                 textAlign: TextAlign.center,
                 style: textWhite.copyWith(
-                  fontSize: 14,
+                  fontSize: 16,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -135,8 +136,8 @@ class InformativeCards extends StatelessWidget {
     this.iconSize,
     required this.text,
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +145,7 @@ class InformativeCards extends StatelessWidget {
       width: width * .8,
       decoration: containerWithBorderRadius.copyWith(
         borderRadius: BorderRadius.circular(15),
-        color: Colors.indigoAccent,
+        color: Colors.cyan[800],
       ),
       child: TextButton(
         style: buttonStyleDefault.copyWith(

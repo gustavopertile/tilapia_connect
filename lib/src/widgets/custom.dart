@@ -14,8 +14,8 @@ class Weather extends StatelessWidget {
     required this.onPressed,
     required this.temp,
     required this.inputCity,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

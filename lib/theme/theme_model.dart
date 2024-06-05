@@ -27,12 +27,12 @@ class MyThemes {
   static final lightTheme = ThemeData(
     fontFamily: 'Montserrat',
     scaffoldBackgroundColor: Colors.white,
-    primaryColor: const Color(0x007BFF),
+    primaryColor: Colors.cyan[800]!,
   );
 
   static final darkTheme = ThemeData(
     fontFamily: 'Montserrat',
     scaffoldBackgroundColor: const Color(0xFF303349),
-    primaryColor: const Color(0x007BFF),
+    primaryColor: Colors.cyan[800]!,
   );
 }

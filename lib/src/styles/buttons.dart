@@ -4,12 +4,12 @@ double buttonWidth = 145;
 double buttonHeight = 40;
 
 final ButtonStyle buttonStyleDefault = ButtonStyle(
-  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
     RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10),
     ),
   ),
-  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+  padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
     EdgeInsets.zero,
   ),
 );
