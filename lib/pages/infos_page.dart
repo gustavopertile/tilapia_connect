@@ -44,7 +44,7 @@ class _InformativeState extends State<Informative> {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: height,
+                        height: height - 80,
                         child: ListView(
                           scrollDirection: Axis.vertical,
                           padding: const EdgeInsets.only(left: 20, top: 40, right: 20, bottom: 40),

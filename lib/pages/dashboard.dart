@@ -320,7 +320,7 @@ class _DashboardState extends State<Dashboard> {
                             width: width,
                             icon: FontAwesomeIcons.chartLine,
                             iconSize: 48,
-                            text: 'Acompanhamento de Crescimento',
+                            text: 'Cálculo de Crescimento',
                             onPressed: () {
                               Navigator.push(
                                 context,
