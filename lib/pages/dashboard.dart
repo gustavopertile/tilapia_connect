@@ -11,7 +11,6 @@ import '../src/styles/text.dart';
 import '../src/widgets/containers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../src/widgets/custom.dart';
-import 'weather_page.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
